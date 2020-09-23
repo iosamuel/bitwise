@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bitwise AND - OR</title>
+
+    <style>
+      html,
+      body {
+        font-family: sans-serif;
+        font-size: 18px;
+      }
+      .modal {
+        max-width: 350px;
+        border: 1px solid black;
+        box-shadow: 1px 1px 1px #ccc;
+      }
+
+      .modal__header {
+        font-size: 1.2rem;
+        font-weight: bold;
+        border-bottom: 1px solid #ccc;
+        padding: 0.5rem 1rem;
+        display: none;
+      }
+
+      .modal__content {
+        padding: 1rem;
+      }
+
+      .modal__buttons {
+        text-align: right;
+        padding: 0.5rem 1rem;
+      }
+      .modal__buttons .btn {
+        padding: 0.2rem;
+        font-size: 0.8rem;
+      }
+      .btn--yes,
+      .btn--no,
+      .btn--ok,
+      .btn--cancel {
+        display: none;
+      }
+
+      .modal.header .modal__header {
+        display: block;
+      }
+      .modal.yes .btn--yes {
+        display: inline-block;
+      }
+      .modal.no .btn--no {
+        display: inline-block;
+      }
+      .modal.ok .btn--ok {
+        display: inline-block;
+      }
+      .modal.cancel .btn--cancel {
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="modal">
+      <div class="modal__header">This is a header</div>
+      <div class="modal__content">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit odit
+        consequatur nihil ipsum pariatur. Alias, provident! Saepe, ad, numquam
+        ullam aspernatur cupiditate aperiam voluptate neque veritatis cum, in
+        aliquid impedit?
+      </div>
+      <div class="modal__buttons">
+        <button class="btn btn--yes">Yes</button>
+        <button class="btn btn--no">No</button>
+        <button class="btn btn--ok">Ok</button>
+        <button class="btn btn--cancel">Cancel</button>
+      </div>
+    </section>
+
+    <hr />
+
+    <form action="#">
+      <fieldset>
+        <legend>Opciones para el modal</legend>
+
+        <input
+          type="checkbox"
+          checked
+          name="layout"
+          data-opt="HEADER"
+          id="layout-header"
+        />
+        <label for="layout-header">Header</label>
+
+        <br />
+
+        <input
+          type="checkbox"
+          checked
+          name="layout"
+          data-opt="YES"
+          id="layout-yes"
+        />
+        <label for="layout-yes">Yes Button</label>
+
+        <br />
+
+        <input
+          type="checkbox"
+          checked
+          name="layout"
+          data-opt="NO"
+          id="layout-no"
+        />
+        <label for="layout-no">No Button</label>
+
+        <br />
+
+        <input
+          type="checkbox"
+          checked
+          name="layout"
+          data-opt="OK"
+          id="layout-ok"
+        />
+        <label for="layout-ok">Ok Button</label>
+
+        <br />
+
+        <input
+          type="checkbox"
+          checked
+          name="layout"
+          data-opt="CANCEL"
+          id="layout-cancel"
+        />
+        <label for="layout-cancel">Cancel Button</label>
+      </fieldset>
+    </form>
+
+    <script>
+      const MODAL = {
+        HEADER: 1,
+        YES: 2,
+        NO: 4,
+        OK: 8,
+        CANCEL: 16
+      };
+      let modalLayout =
+        MODAL.HEADER | MODAL.YES | MODAL.NO | MODAL.OK | MODAL.CANCEL;
+
+      const layoutOpts = document.getElementsByName("layout");
+      layoutOpts.forEach(checkbox => {
+        checkbox.addEventListener("change", e => {
+          // modalOPT =>
+          // MODAL.HEADER - MODAL.YES - MODAL.NO - MODAL.OK - MODAL.CANCEL
+          const modalOPT = MODAL[e.target.dataset["opt"]];
+
+          modalLayout = modalLayout ^ modalOPT;
+
+          setClasses(modalLayout);
+        });
+      });
+
+      setClasses(modalLayout);
+      function setClasses(modalLayout) {
+        const modal = document.querySelector(".modal");
+
+        modal.classList.toggle("header", modalLayout & MODAL.HEADER);
+        modal.classList.toggle("yes", modalLayout & MODAL.YES);
+        modal.classList.toggle("no", modalLayout & MODAL.NO);
+        modal.classList.toggle("ok", modalLayout & MODAL.OK);
+        modal.classList.toggle("cancel", modalLayout & MODAL.CANCEL);
+      }
+    </script>
+  </body>
+</html>
